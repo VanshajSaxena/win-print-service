@@ -1,10 +1,11 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace PrintService
 {
@@ -14,6 +15,18 @@ namespace PrintService
     public partial class App : Application
     {
         private readonly ApiService _apiService = new();
+
+        static App()
+        {
+            Log.Logger = new LoggerConfiguration()
+            .WriteTo.File(
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "log-static-.txt"),
+                rollingInterval: RollingInterval.Day
+                )
+            .CreateLogger();
+            Log.Information("Initialized static logger.");
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -21,19 +34,23 @@ namespace PrintService
             {
                 try
                 {
+                    Log.Information("Web Server is starting...");
                     await _apiService.StartAsync();
+                    Log.Information("Web Server started.");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    Log.Warning(ex, ex.Message);
                 }
             });
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
+            Log.Information("Application is shutting down...");
             base.OnExit(e);
             _apiService.StopAsync().GetAwaiter().GetResult();
+            Log.Information("Application shutdown complete.");
         }
     }
 
@@ -60,9 +77,16 @@ namespace PrintService
                 });
             });
 
+
             // Configure logging
-            builder.Logging.ClearProviders();
-            builder.Logging.AddConsole();
+            builder.Host.UseSerilog((hostingContext, services, loggerConfiguration) => loggerConfiguration
+                .ReadFrom.Configuration(hostingContext.Configuration)
+                .Enrich.FromLogContext()
+                .WriteTo.File(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "log-.txt"),
+                    rollingInterval: RollingInterval.Day
+                    )
+                .WriteTo.Console()
+                );
 
             // Configure the web host
             builder.WebHost.UseUrls(baseUrl);
