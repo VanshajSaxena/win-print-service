@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PrintService.Services;
 using Serilog;
 
 namespace PrintService
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Interaction logic for App.xaml.
     /// </summary>
     public partial class App : Application
     {
@@ -54,6 +55,9 @@ namespace PrintService
         }
     }
 
+    /// <summary>
+    /// Internal API Service to initialize and manage the embedded server lifecycle.
+    /// </summary>
     internal class ApiService
     {
         private IHost? _host;
@@ -76,6 +80,9 @@ namespace PrintService
                            .AllowAnyMethod();
                 });
             });
+
+            // Add Services
+            builder.Services.AddSingleton<PrintQueueService>();
 
 
             // Configure logging
