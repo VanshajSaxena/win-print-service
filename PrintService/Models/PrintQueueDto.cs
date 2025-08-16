@@ -31,7 +31,6 @@ namespace PrintService.Models
         public List<string>? PagesPerSheet { get; set; }
         public List<string>? PagesPerSheetDirection { get; set; }
         public List<string>? PhotoPrintingIntent { get; set; }
-        public List<string>? PrintCapabilities { get; set; }
         public List<string>? Stapling { get; set; }
         public List<string>? TrueTypeFontMode { get; set; }
     }
