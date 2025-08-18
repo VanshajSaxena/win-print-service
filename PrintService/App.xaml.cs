@@ -92,7 +92,6 @@ namespace PrintService
                 .WriteTo.File(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "log-.txt"),
                     rollingInterval: RollingInterval.Day
                     )
-                .WriteTo.Console()
                 );
 
             // Configure the web host
