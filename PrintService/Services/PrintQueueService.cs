@@ -12,6 +12,14 @@ namespace PrintService.Services
     {
         private readonly ILogger<PrintQueueService> _logger = logger;
 
+        /// <summary>
+        /// Retrieves a list of print queue names available on the local print server.
+        /// </summary>
+        /// <remarks>This method queries the local print server for all available print queues and returns
+        /// their names. The operation is performed on the application's dispatcher thread to ensure thread
+        /// safety.</remarks>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a list of strings, where each
+        /// string is the name of a print queue available on the local print server.</returns>
         public async Task<List<string>> GetPrintQueues()
         {
             _logger.LogInformation("{MethodName} was invoked", nameof(GetPrintQueues));
@@ -22,6 +30,14 @@ namespace PrintService.Services
             });
         }
 
+        /// <summary>
+        /// Retrieves information about a specific print queue by its name.
+        /// </summary>
+        /// <remarks>This method uses the application's dispatcher to ensure thread-safe access to the
+        /// print server.</remarks>
+        /// <param name="queueName">The name of the print queue to retrieve. This parameter is case-insensitive.</param>
+        /// <returns>A <see cref="PrintQueueDto"/> object containing details about the specified print queue,  including its full
+        /// name, name, comment, description, and status.</returns>
         public async Task<PrintQueueDto> GetPrintQueue(string queueName)
         {
             _logger.LogInformation("{MethodName} was invoked with parameter: {queueName}", nameof(GetPrintQueueCapabilities), queueName);
@@ -44,6 +60,15 @@ namespace PrintService.Services
             });
         }
 
+        /// <summary>
+        /// Retrieves the print capabilities of a specified print queue.
+        /// </summary>
+        /// <remarks>This method queries the local print server to retrieve the capabilities of the
+        /// specified print queue. It uses the current application's dispatcher to ensure thread safety when
+        /// interacting with the print server.</remarks>
+        /// <param name="queueName">The name of the print queue for which to retrieve capabilities. This value is case-insensitive.</param>
+        /// <returns>A <see cref="PrintCapabilitiesDto"/> object containing the capabilities of the specified print queue, 
+        /// including supported collation, duplexing, input bins, page sizes, resolutions, and other printing features.</returns>
         public async Task<PrintCapabilitiesDto> GetPrintQueueCapabilities(string queueName)
         {
             _logger.LogInformation("{MethodName} was invoked with parameter: {queueName}", nameof(GetPrintQueueCapabilities), queueName);
