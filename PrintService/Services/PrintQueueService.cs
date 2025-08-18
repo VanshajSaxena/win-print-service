@@ -40,7 +40,7 @@ namespace PrintService.Services
         /// name, name, comment, description, and status.</returns>
         public async Task<PrintQueueDto> GetPrintQueue(string queueName)
         {
-            _logger.LogInformation("{MethodName} was invoked with parameter: {queueName}", nameof(GetPrintQueueCapabilities), queueName);
+            _logger.LogInformation("{MethodName} was invoked with parameter: {queueName}", nameof(GetPrintQueue), queueName);
             return await Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 using var server = new LocalPrintServer();
