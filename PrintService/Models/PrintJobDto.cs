@@ -39,9 +39,10 @@ namespace PrintService.Models
 
     public record PrintJobDto
     {
-        public PrintTicketDto? Ticket { get; set; }
         public string? Name { get; set; }
         public string? DocumentPath { get; set; }
+        public bool? FastCopy { get; set; }
+        public PrintTicketDto? Ticket { get; set; }
     }
 
 
