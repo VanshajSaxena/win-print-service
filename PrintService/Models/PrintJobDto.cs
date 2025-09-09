@@ -1,18 +1,16 @@
-using System.Printing;
-
 namespace PrintService.Models
 {
     public record PrintJobInfoDto
     {
-        public int? JobIdentifier { get; internal set; }
-        public string? JobStatus { get; internal set; }
-        public string? JobName { get; internal set; }
-        public int? NumberOfPages { get; internal set; }
-        public int? NumberOfPagesPrinted { get; internal set; }
-        public int? PositionInPrintQueue { get; internal set; }
-        public string? Priority { get; internal set; }
-        public DateTime? TimeJobSubmitted { get; internal set; }
-        public int? TimeSinceStartedPrinting { get; internal set; }
+        public int? JobIdentifier { get; set; }
+        public string? JobStatus { get; set; }
+        public string? JobName { get; set; }
+        public int? NumberOfPages { get; set; }
+        public int? NumberOfPagesPrinted { get; set; }
+        public int? PositionInPrintQueue { get; set; }
+        public string? Priority { get; set; }
+        public DateTime? TimeJobSubmitted { get; set; }
+        public int? TimeSinceStartedPrinting { get; set; }
     }
 
     public record PrintTicketDto
@@ -41,17 +39,17 @@ namespace PrintService.Models
 
     public record PrintJobDto
     {
-        public PrintTicketDto? Ticket { get; internal set; }
-        public string? Name { get; internal set; }
-        public string? DocumentPath { get; internal set; }
+        public PrintTicketDto? Ticket { get; set; }
+        public string? Name { get; set; }
+        public string? DocumentPath { get; set; }
     }
 
 
     public record PageResolutionTicketDto
     {
-        public PageQualitativeResolutionDto? Resolution { get; internal set; }
-        public int? X { get; internal set; }
-        public int? Y { get; internal set; }
+        public PageQualitativeResolutionDto? Resolution { get; set; }
+        public int? X { get; set; }
+        public int? Y { get; set; }
     }
 
     public enum PageQualitativeResolutionDto
@@ -406,5 +404,4 @@ namespace PrintService.Models
         CreditCard,
         Unknown,
     }
-
 }

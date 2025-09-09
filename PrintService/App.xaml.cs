@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PrintService.Exceptions;
 using PrintService.Services;
 using Serilog;
 
@@ -71,6 +72,11 @@ namespace PrintService
 
             // Configure services
             builder.Services.AddControllers();
+            builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+            });
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
@@ -81,8 +87,11 @@ namespace PrintService
                 });
             });
 
+            builder.Services.AddSwaggerGen();
+
             // Add Services
             builder.Services.AddSingleton<PrintQueueService>();
+            builder.Services.AddSingleton<PrintJobService>();
 
 
             // Configure logging
@@ -100,7 +109,11 @@ namespace PrintService
             var app = builder.Build();
 
             // Configure pipeline
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseCors();
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
             app.MapControllers();
 
             // Add a simple health check endpoint
