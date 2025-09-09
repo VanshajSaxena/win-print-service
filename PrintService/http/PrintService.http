@@ -1,0 +1,107 @@
+### 
+
+@host = localhost
+@port = 5000
+@protocol = http
+@queueName = microsoft print to pdf
+
+
+### 
+
+@queueName = microsoft print to pdf
+
+
+### Ping the service
+
+GET {{protocol}}://{{host}}:{{port}}/api/v1/ping HTTP/1.1
+Accept: application/json
+
+
+### 
+
+
+### Get all print queues
+
+GET {{protocol}}://{{host}}:{{port}}/api/v1/printqueues HTTP/1.1
+Accept: application/json
+
+
+### 
+
+
+### Get a specific print queue by name
+
+GET {{protocol}}://{{host}}:{{port}}/api/v1/printqueues/{{queueName}} HTTP/1.1
+Accept: application/json
+
+
+### 
+
+
+### Get capabilities of a specific print queue
+
+GET {{protocol}}://{{host}}:{{port}}/api/v1/printqueues/{{queueName}}/capabilities HTTP/1.1
+Accept: application/json
+
+
+### 
+
+
+### Get all jobs in a specific print queue
+
+GET {{protocol}}://{{host}}:{{port}}/api/v1/printqueues/{{queueName}}/jobs HTTP/1.1
+Accept: application/json
+
+
+### 
+
+
+### Submit a new print job to a queue
+
+POST {{protocol}}://{{host}}:{{port}}/api/v1/printqueues/{{queueName}}/jobs HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "documentPath": "C:/Users/VS/Downloads/Appointment_Letter_16659_24-07-2025_297-1754460593.xps",
+  "fastCopy": true,
+  "name": "Sample Print Job",
+  "ticket": {
+    "collation": "Collated",
+    "copyCount": 1,
+    "deviceFontSubstitution": "Off",
+    "duplexing": "TwoSidedLongEdge",
+    "inputBin": "AutoSelect",
+    "outputColor": "Color",
+    "outputQuality": "High",
+    "pageBorderless": "None",
+    "pageMediaSize": {
+      "height": null,
+      "name": "ISOA4",
+      "width": null
+    },
+    "pageMediaType": "Plain",
+    "pageOrder": "Standard",
+    "pageOrientation": "Portrait",
+    "pageResolution": {
+      "resolution": "High",
+      "x": 600,
+      "y": 600
+    },
+    "pageScalingFactor": 100,
+    "pagesPerSheet": 1,
+    "pagesPerSheetDirection": "TopLeft",
+    "photoPrintingIntent": "None",
+    "stapling": "None",
+    "trueTypeFontMode": "Automatic"
+  }
+}
+
+
+### 
+
+
+### Get a specific job by ID in a print queue
+
+GET {{protocol}}://{{host}}:{{port}}/api/v1/printqueues/{{queueName}}/jobs/123 HTTP/1.1
+Accept: application/json
