@@ -39,6 +39,10 @@ namespace PrintService.Services
 
                     return dto;
                 }
+                catch (InvalidOperationException ex)
+                {
+                    throw new PrintQueueNotFoundException($"Print queue with name '{queueName}' does not exist.", ex);
+                }
                 catch (ArgumentNullException ex)
                 {
                     throw new Exception("Failed to retrive print queue.", ex);
@@ -74,6 +78,10 @@ namespace PrintService.Services
                         TimeSinceStartedPrinting = printJobInfo.TimeSinceStartedPrinting,
                     };
                     return dto;
+                }
+                catch (InvalidOperationException ex)
+                {
+                    throw new PrintQueueNotFoundException($"Print queue with name '{queueName}' does not exist.", ex);
                 }
                 catch (ArgumentNullException ex)
                 {
@@ -121,7 +129,7 @@ namespace PrintService.Services
             });
         }
 
-        private PrintTicket ConvertToPrintTicket(PrintTicketDto ticketDto)
+        private static PrintTicket ConvertToPrintTicket(PrintTicketDto ticketDto)
         {
             PrintTicket printTicket = new();
             if (ticketDto.Collation.HasValue)
