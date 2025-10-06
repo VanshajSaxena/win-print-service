@@ -35,7 +35,7 @@ namespace PrintService.Controllers
         [HttpGet("{queueName}/jobs")]
         public async Task<IActionResult> GetJobs(string queueName)
         {
-            var printJobs = await _printJobService.GetPrintJobsInfo(queueName);
+            var printJobs = await _printJobService.GetPrintJobInfoAll(queueName);
             return Ok(printJobs);
         }
 

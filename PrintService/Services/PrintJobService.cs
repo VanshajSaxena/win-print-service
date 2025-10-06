@@ -9,9 +9,9 @@ namespace PrintService.Services
     public class PrintJobService(ILogger<PrintJobService> logger)
     {
         private readonly ILogger<PrintJobService> _logger = logger;
-        public async Task<List<PrintJobInfoDto>> GetPrintJobsInfo(string queueName)
+        public async Task<List<PrintJobInfoDto>> GetPrintJobInfoAll(string queueName)
         {
-            _logger.LogInformation("{MethodName} was invoked with parameter: {queueName}", nameof(GetPrintJobsInfo), queueName);
+            _logger.LogInformation("{MethodName} was invoked with parameter: {queueName}", nameof(GetPrintJobInfoAll), queueName);
             return await Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 try
