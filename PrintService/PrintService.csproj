@@ -12,7 +12,7 @@
     <Content Include="Resources\gsdll64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\gswin64c.exe">
+    <Content Include="Resources\converter.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

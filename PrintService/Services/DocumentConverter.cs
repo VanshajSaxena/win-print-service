@@ -18,7 +18,7 @@ public class DocumentConverter
         string arguments = $"-r300 -sDEVICE=xpswrite -o \"{outputFileName}\" -dNoPause -dBATCH \"{pathToPdf}\"";
 
         string baseDirectory = AppContext.BaseDirectory;
-        string executablePath = Path.Combine(baseDirectory, "Resources", "gswin64c.exe");
+        string executablePath = Path.Combine(baseDirectory, "Resources", "converter.exe");
 
         var startInfo = new ProcessStartInfo
         {
