@@ -3,7 +3,7 @@
 @host = localhost
 @port = 5000
 @protocol = http
-@queueName = microsoft print to pd
+@queueName = microsoft print to pdf
 
 
 ### Ping the service
@@ -38,6 +38,16 @@ Accept: application/json
 GET {{protocol}}://{{host}}:{{port}}/api/v1/printqueues/{{queueName}}/capabilities HTTP/1.1
 Accept: application/json
 
+> {%
+  -- lua
+  assert.same(response.response_code, 200, "Expected a 200 OK response")
+  if response.json then
+  	request.replay()
+  else
+  	assert.is_true(false, "Response body is not valid JSON.")
+  end
+%}
+
 
 ### 
 
@@ -58,7 +68,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "documentPath": "C:/Users/VS/Downloads/Appointment_Letter_16659_24-07-2025_297-1754460593.xps",
+  "documentPath": "C:\\Users\\VS\\Downloads\\Confirmation_Letter_16659_20-08-2025_749.pdf",
   "fastCopy": true,
   "name": "Sample Print Job",
   "ticket": {

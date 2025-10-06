@@ -71,7 +71,6 @@ namespace PrintService
             var builder = WebApplication.CreateBuilder();
 
             // Configure services
-            builder.Services.AddControllers();
             builder.Services.AddControllers()
             .AddJsonOptions(options =>
             {
@@ -92,6 +91,7 @@ namespace PrintService
             // Add Services
             builder.Services.AddSingleton<PrintQueueService>();
             builder.Services.AddSingleton<PrintJobService>();
+            builder.Services.AddSingleton<DocumentConverter>();
 
 
             // Configure logging

@@ -6,7 +6,7 @@ using PrintService.Models;
 
 namespace PrintService.Services
 {
-    public class PrintJobService(ILogger<PrintJobService> logger)
+    public class PrintJobService(ILogger<PrintJobService> logger, DocumentConverter converter)
     {
         private readonly ILogger<PrintJobService> _logger = logger;
         public async Task<List<PrintJobInfoDto>> GetPrintJobInfoAll(string queueName)
@@ -93,6 +93,19 @@ namespace PrintService.Services
         public async Task<PrintJobInfoDto> AddJob(PrintJobDto printJob, string queueName)
         {
             _logger.LogInformation("{MethodName} was invoked with parameter: [{printTicket}, {jobId}]", nameof(AddJob), printJob, queueName);
+            string? convertedDocumentPath = null;
+            await Task.Run(async () =>
+            {
+                try
+                {
+                    convertedDocumentPath = await converter.Convert(printJob.DocumentPath);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "An exception occured while converting a document");
+                    throw;
+                }
+            });
             return await Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 try
@@ -104,7 +117,7 @@ namespace PrintService.Services
                     });
                     PrintTicketDto? ticketDto = printJob.Ticket ?? throw new ArgumentException("PrintTicket is null.");
                     PrintTicket printTicket = ConvertToPrintTicket(ticketDto);
-                    PrintSystemJobInfo? jobInfo = current.AddJob(printJob.Name, printJob.DocumentPath, printJob.FastCopy.GetValueOrDefault(true), printTicket);
+                    PrintSystemJobInfo? jobInfo = current.AddJob(printJob.Name, convertedDocumentPath, printJob.FastCopy.GetValueOrDefault(true), printTicket);
                     return new PrintJobInfoDto()
                     {
                         JobIdentifier = jobInfo.JobIdentifier,
