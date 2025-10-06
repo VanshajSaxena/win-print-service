@@ -428,3 +428,4 @@ FodyWeavers.xsd
 *.msp
 DOCS.norg
 TASKS.norg
+PrintService/Resources/*

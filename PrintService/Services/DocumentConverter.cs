@@ -17,9 +17,12 @@ public class DocumentConverter
         string outputFileName = string.Concat(pathToPdf.AsSpan(0, pathToPdf.Length - 4), "-", timeSinceEpoch, ".xps");
         string arguments = $"-r300 -sDEVICE=xpswrite -o \"{outputFileName}\" -dNoPause -dBATCH \"{pathToPdf}\"";
 
+        string baseDirectory = AppContext.BaseDirectory;
+        string executablePath = Path.Combine(baseDirectory, "Resources", "gswin64c.exe");
+
         var startInfo = new ProcessStartInfo
         {
-            FileName = "gswin64c.exe",
+            FileName = executablePath,
             Arguments = arguments,
             UseShellExecute = false,
             RedirectStandardOutput = true,
